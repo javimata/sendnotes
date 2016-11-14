@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="content" method="upgrade">
+	<name>Send emails</name>
+	<author>@Javi_Mata</author>
+	<creationDate>October 2016</creationDate>
+	<copyright>Copyright (C) 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>javimata@gmail.com</authorEmail>
+	<authorUrl>www.javimata.com</authorUrl>
+	<version>1.0.1</version>
+	<description>Envia un email cuando se agrega una nota</description>
+	<files>
+		<filename plugin="sendnotes">sendnotes.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<config>
+		<fields name="params">
+		</fields>
+	</config>
+</extension>
