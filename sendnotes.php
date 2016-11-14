@@ -1,7 +1,7 @@
 <?php
 // no direct access
 defined('JPATH_BASE') or die;
-date_default_timezone_set("America/Monterrey");
+date_default_timezone_set("America/Mexico_City");
 
 class plgContentSendnotes extends JPlugin
 {
