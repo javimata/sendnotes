@@ -1,6 +1,7 @@
 <?php
 // no direct access
 defined('JPATH_BASE') or die;
+date_default_timezone_set("America/Monterrey");
 
 class plgContentSendnotes extends JPlugin
 {
@@ -18,10 +19,15 @@ class plgContentSendnotes extends JPlugin
 			return true;
 		}
 
-		if (!$isNew):
+		if ($isNew):
 
 			$sendEmail = $this->params->get('enviar_email', 1);
 			$sendBcc   = $this->params->get('send_bcc', 1);
+			$titulo    = $this->params->get('titulo', "");
+			if ( $titulo ) { $titulo = " " . $titulo; }
+			$titulo = $article->subject . $titulo;
+			$texto_footer    = $this->params->get('texto_footer', "");
+
 			if ( $sendEmail == 1 ):
 
 				$mailer = JFactory::getMailer();
@@ -34,6 +40,12 @@ class plgContentSendnotes extends JPlugin
 				 
 				$mailer->setSender($sender);
 
+				$body_pre  = "";
+				$body_pre .= "<h3>" . $titulo;
+				$body_pre .= "<br><small>" . date('d-m-Y h:i:s') . "</small></h3>";
+				$body_pre .= $article->body;
+				if ( $texto_footer ) { $body_pre .= "<hr><small>" . $texto_footer . "</small>"; }
+
 				$user = JFactory::getUser( $article->user_id );
 				$recipient = $user->email;
 				 
@@ -43,10 +55,10 @@ class plgContentSendnotes extends JPlugin
 					$mailer->addCc($config->get( 'mailfrom' ));
 				endif;
 
-				$body   = $article->body;
+				$body   = $body_pre;
 				$mailer->isHTML(true);
 				$mailer->Encoding = 'base64';
-				$mailer->setSubject( $article->subject );
+				$mailer->setSubject( $titulo );
 				$mailer->setBody($body);
 
 				$send = $mailer->Send();

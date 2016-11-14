@@ -39,6 +39,11 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
+				<field name="titulo" type="text" default="" label="Agregar al titulo" description="Agrega texto al titulo del email, dejar en blanco envia como titulo solo el titulo de la nota"/>
+
+				<field name="texto_footer" type="textarea" default="" label="Agregar texto" description="Texto a agregar despues del contenido de la nota, dejar en blanco no agrega nada."/>
+
 			</fieldset>
 
 		</fields>
