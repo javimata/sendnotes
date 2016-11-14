@@ -2,8 +2,6 @@
 // no direct access
 defined('JPATH_BASE') or die;
 
-jimport('joomla.utilities.date');
-
 class plgContentSendnotes extends JPlugin
 {
 	public function __construct(& $subject, $config)
@@ -14,34 +12,37 @@ class plgContentSendnotes extends JPlugin
 	function onContentAfterSave($context, $article, $isNew)
 	{
 
-		if ( $isNew != true ):
+		// Check we are handling the frontend edit form.
+		if ($context != 'com_users.note')
+		{
+			return true;
+		}
+
+		if (!$isNew):
 			$mailer = JFactory::getMailer();
 
 			$config = JFactory::getConfig();
 			$sender = array( 
 			    $config->get( 'mailfrom' ),
-			    $config->get( 'fromname' ) 
+			    $config->get( 'fromname' )
 			);
 			 
 			$mailer->setSender($sender);
 
-			$user = JFactory::getUser();
+			$user = JFactory::getUser( $article->user_id );
 			$recipient = $user->email;
 			 
 			$mailer->addRecipient($recipient);
 
-			$body   = '<h2>Our mail</h2>'
-			    . '<div>A message to our dear readers'
-			    . '<img src="cid:logo_id" alt="logo"/></div>';
+			$body   = $article->body;
 			$mailer->isHTML(true);
 			$mailer->Encoding = 'base64';
+			$mailer->setSubject( $article->subject );
 			$mailer->setBody($body);
 
 			$send = $mailer->Send();
 			if ( $send !== true ) {
 			    echo 'Error sending email: ' . $send->__toString();
-			} else {
-			    echo 'Mail sent';
 			}
 
 		endif;
