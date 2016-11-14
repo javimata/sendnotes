@@ -68,6 +68,10 @@ class plgContentSendnotes extends JPlugin
 
 			endif;
 
+		else:
+
+			return true;
+
 		endif;
 	}
 }
