@@ -15,6 +15,32 @@
 	</files>
 	<config>
 		<fields name="params">
+
+			<fieldset name="basic">
+				<field
+					name="enviar_email"
+					type="radio"
+					label="Enviar Email"
+					description="Se envia un email al usuario al agregar una nota"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field name="send_bcc"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					label="Enviar Copia (Oculta)"
+					description="Enviar copia oculta (Bcc) al correo del administrador"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+
 		</fields>
 	</config>
 </extension>

@@ -19,31 +19,42 @@ class plgContentSendnotes extends JPlugin
 		}
 
 		if (!$isNew):
-			$mailer = JFactory::getMailer();
 
-			$config = JFactory::getConfig();
-			$sender = array( 
-			    $config->get( 'mailfrom' ),
-			    $config->get( 'fromname' )
-			);
-			 
-			$mailer->setSender($sender);
+			$sendEmail = $this->params->get('enviar_email', 1);
+			$sendBcc   = $this->params->get('send_bcc', 1);
+			if ( $sendEmail == 1 ):
 
-			$user = JFactory::getUser( $article->user_id );
-			$recipient = $user->email;
-			 
-			$mailer->addRecipient($recipient);
+				$mailer = JFactory::getMailer();
 
-			$body   = $article->body;
-			$mailer->isHTML(true);
-			$mailer->Encoding = 'base64';
-			$mailer->setSubject( $article->subject );
-			$mailer->setBody($body);
+				$config = JFactory::getConfig();
+				$sender = array( 
+				    $config->get( 'mailfrom' ),
+				    $config->get( 'fromname' )
+				);
+				 
+				$mailer->setSender($sender);
 
-			$send = $mailer->Send();
-			if ( $send !== true ) {
-			    echo 'Error sending email: ' . $send->__toString();
-			}
+				$user = JFactory::getUser( $article->user_id );
+				$recipient = $user->email;
+				 
+				$mailer->addRecipient($recipient);
+
+				if ( $sendBcc == 1 ) :
+					$mailer->addCc($config->get( 'mailfrom' ));
+				endif;
+
+				$body   = $article->body;
+				$mailer->isHTML(true);
+				$mailer->Encoding = 'base64';
+				$mailer->setSubject( $article->subject );
+				$mailer->setBody($body);
+
+				$send = $mailer->Send();
+				if ( $send !== true ) {
+				    echo 'Error sending email: ' . $send->__toString();
+				}
+
+			endif;
 
 		endif;
 	}
